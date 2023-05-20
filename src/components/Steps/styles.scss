@@ -1,0 +1,17 @@
+.steps_card {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 15px;
+  padding: 30px;
+  position: relative;
+
+  .calification {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .title {
+    font-size: 26px;
+    font-weight: bold;
+  }
+}
