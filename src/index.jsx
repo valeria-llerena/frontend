@@ -8,7 +8,9 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import authReducer from "./shared/redux/reducers/authReducer.js";
 import "./index.scss";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
+if(process.env.NODE_ENV == 'production') disableReactDevTools(); 
 const persistConfig = {
   key: "root",
   storage,
