@@ -1,4 +1,4 @@
-import ProgresoTemplate from "../../components/Templates/ProgresoTEmplate";
+import ProgresoTemplate from "../../components/Templates/ProgresoTemplate";
 import ProgresoService from "../../Api/progreso";
 import { useEffect, useState } from "react";
 
