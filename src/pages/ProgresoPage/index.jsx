@@ -1,5 +1,7 @@
+import ProgresoTemplate from "../../components/Templates/ProgresoTemplate";
+
 const ProgresoPage = () => {
-  return <div>ProgresoPage</div>;
+  return <ProgresoTemplate />;
 };
 
 export default ProgresoPage;

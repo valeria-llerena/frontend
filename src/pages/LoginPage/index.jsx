@@ -1,18 +1,19 @@
-import { useEffect } from "react";
-import SideBar from "../../components/SideBar";
+import LoginTemplate from "../../components/Templates/LoginTemplate";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import mainRoutes from "../../shared/navigation";
 
-const HomePage = () => {
+const LoginPage = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const navigate = useNavigate();
 
   useEffect(() => {
-    !isLoggedIn && navigate(mainRoutes.mainRoutes.login);
+    console.log("state", isLoggedIn);
+    isLoggedIn === true && navigate(mainRoutes.home.objetivos);
   }, [isLoggedIn, navigate]);
 
-  return <SideBar />;
+  return <LoginTemplate />;
 };
 
-export default HomePage;
+export default LoginPage;

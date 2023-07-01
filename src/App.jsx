@@ -1,32 +1,39 @@
+import LoginPage from "./pages/LoginPage";
 import ObjetivosPage from "./pages/ObjetivosPage";
 import ProgresoPage from "./pages/ProgresoPage";
 import ReunionPage from "./pages/ReunionPage";
 import ReunionesPage from "./pages/ReunionesPage";
 import HomePage from "./pages/HomePage";
-import mainRoutes from "./shared/navigation";
+import Routes from "./shared/navigation";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.scss";
 
 function App() {
+  const { home, mainRoutes } = Routes;
+
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: mainRoutes.login,
+      element: <LoginPage />,
+    },
+    {
+      path: home.init,
       element: <HomePage />,
       children: [
         {
-          path: mainRoutes.objetivos,
+          path: home.objetivos,
           element: <ObjetivosPage />,
         },
         {
-          path: mainRoutes.progreso,
+          path: home.progreso,
           element: <ProgresoPage />,
         },
         {
-          path: mainRoutes.reunion,
+          path: home.reunion,
           element: <ReunionPage />,
         },
         {
-          path: mainRoutes.reuniones,
+          path: home.reuniones,
           element: <ReunionesPage />,
         },
       ],

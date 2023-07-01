@@ -1,36 +1,28 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import {
-  Button,
-  Modal,
-  Input,
-  Form as FormAntd,
-  DatePicker,
-  Select,
-  Typography,
-} from "antd";
-import { Formik, Form, Field, useFormik } from "formik";
+import { Button, Modal, Input, DatePicker, Typography } from "antd";
+import { useFormik } from "formik";
 import ObjetivosService from "../../../Api/objetivos";
+import { useSelector } from "react-redux";
 import * as Yup from "yup";
 import Steps from "../../Steps";
 import "./styles.scss";
 
 const { Text } = Typography;
+const { RangePicker } = DatePicker;
 
 const validationSchema = Yup.object().shape({
   nombre: Yup.string().required("El nombre es obligatorio"),
   descripcion: Yup.string().required("La descripcion es obligatoria"),
-  porcentaje: Yup.string().required("La porcentaje es obligatoria"),
-  persona: Yup.string().required("La persona es obligatoria"),
-  id_metrica: Yup.string().required("La id_metrica es obligatoria"),
-  fechainicio: Yup.string().required("La fechainicio es obligatoria"),
-  fechafin: Yup.string().required("La fechafin es obligatoria"),
+  fechaInicio: Yup.date().required("La fecha de inicio es obligatoria"),
+  fechaFin: Yup.date().required("La fecha de fin es obligatoria"),
   meta: Yup.string().required("La meta es obligatoria"),
   aceptable: Yup.string().required("La aceptable es obligatoria"),
 });
 
 const ObjetivosTemplate = ({ objetivos }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userData = useSelector((state) => state);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -44,24 +36,28 @@ const ObjetivosTemplate = ({ objetivos }) => {
 
   const handleSubmit = async (values) => {
     const result = await ObjetivosService.postNewObjetivos(values);
-    console.log("result", result);
+    if (result?.response) {
+      window.location.reload();
+    }
   };
 
   const formik = useFormik({
     initialValues: {
       nombre: "",
       descripcion: "",
-      porcentaje: "",
-      persona: "",
-      idmetrica: "",
-      fechainicio: "",
-      fechafin: "",
+      fechaInicio: "",
+      fechaFin: "",
       meta: "",
       aceptable: "",
+      nombreMetrica: "",
     },
     validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      const newValues = { ...values };
+      newValues.idPersona = userData?.user?.dni;
+      newValues.tipoMetrica = 1;
+      handleSubmit(newValues);
+      /* alert(JSON.stringify(newValues)); */
     },
   });
 
@@ -106,68 +102,16 @@ const ObjetivosTemplate = ({ objetivos }) => {
               ) : null}
             </div>
             <div className="labelInput">
-              <Text>Porcentaje</Text>
-              <Input
-                value={formik.values.porcentaje}
-                onChange={(event) =>
-                  formik.setFieldValue("porcentaje", event.target.value)
-                }
-                placeholder="Porcentaje float"
-              />
-              {formik.errors.porcentaje && formik.touched.porcentaje ? (
-                <Text type="danger">{formik.errors.porcentaje}</Text>
-              ) : null}
-            </div>
-            <div className="labelInput">
-              <Text>Persona *</Text>
-              <Input
-                value={formik.values.persona}
-                onChange={(event) =>
-                  formik.setFieldValue("persona", event.target.value)
-                }
-                placeholder="Persona int"
-              />
-              {formik.errors.persona && formik.touched.persona ? (
-                <Text type="danger">{formik.errors.persona}</Text>
-              ) : null}
-            </div>
-            <div className="labelInput">
-              <Text>ID Metrica *</Text>
-              <Input
-                value={formik.values.idmetrica}
-                onChange={(event) =>
-                  formik.setFieldValue("idmetrica", event.target.value)
-                }
-                placeholder="ID Metrica int"
-              />
-              {formik.errors.idmetrica && formik.touched.idmetrica ? (
-                <Text type="danger">{formik.errors.idmetrica}</Text>
-              ) : null}
-            </div>
-            <div className="labelInput">
-              <Text>Fecha de inicio</Text>
-              <Input
-                value={formik.values.fechainicio}
-                onChange={(event) =>
-                  formik.setFieldValue("fechainicio", event.target.value)
-                }
+              <Text style={{ marginRight: "30px" }}>Fecha Limite</Text>
+              <RangePicker
+                onChange={(value1, value2) => {
+                  formik.setFieldValue("fechaInicio", value2[0]);
+                  formik.setFieldValue("fechaFin", value2[1]);
+                }}
                 placeholder="Nombre"
               />
               {formik.errors.fechainicio && formik.touched.fechainicio ? (
                 <Text type="danger">{formik.errors.fechainicio}</Text>
-              ) : null}
-            </div>
-            <div className="labelInput">
-              <Text>Fecha de fin</Text>
-              <Input
-                value={formik.values.fechafin}
-                onChange={(event) =>
-                  formik.setFieldValue("fechafin", event.target.value)
-                }
-                placeholder="Fecha de fin"
-              />
-              {formik.errors.fechafin && formik.touched.fechafin ? (
-                <Text type="danger">{formik.errors.fechafin}</Text>
               ) : null}
             </div>
             <div className="labelInput">
@@ -196,6 +140,19 @@ const ObjetivosTemplate = ({ objetivos }) => {
                 <Text type="danger">{formik.errors.aceptable}</Text>
               ) : null}
             </div>
+            <div className="labelInput">
+              <Text>Metrica</Text>
+              <Input
+                value={formik.values.nombreMetrica}
+                onChange={(event) =>
+                  formik.setFieldValue("nombreMetrica", event.target.value)
+                }
+                placeholder="Metrica"
+              />
+              {formik.errors.nombreMetrica && formik.touched.nombreMetrica ? (
+                <Text type="danger">{formik.errors.nombreMetrica}</Text>
+              ) : null}
+            </div>
           </div>
           <div className="buttonSpace">
             <Button type="primary" htmlType="submit">
@@ -205,9 +162,10 @@ const ObjetivosTemplate = ({ objetivos }) => {
         </form>
       </Modal>
       <div className="objetivos_template">
-        {newObjetivos?.map((objetivo, index) => {
-          return <Steps key={index} objetivo={objetivo} />;
-        })}
+        {newObjetivos &&
+          newObjetivos.map((objetivo, index) => {
+            return <Steps key={index} objetivo={objetivo} />;
+          })}
       </div>
     </div>
   );

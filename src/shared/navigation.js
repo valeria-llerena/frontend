@@ -1,8 +1,15 @@
 const mainRoutes = {
-  objetivos: "/objetivos/",
-  progreso: "/progreso/",
-  reuniones: "/reuniones/",
-  reunion: "/reunion/",
+  login: "/login",
+  home: "/",
 };
 
-export default mainRoutes;
+export default {
+  home: {
+    init: mainRoutes.home,
+    objetivos: "/objetivos",
+    progreso: "/progreso",
+    reuniones: "/reuniones",
+    reunion: "/reunion",
+  },
+  mainRoutes,
+};
