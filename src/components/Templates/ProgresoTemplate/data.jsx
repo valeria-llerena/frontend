@@ -1,15 +1,6 @@
-const dataSource = [
-  {
-    key: "1",
-    idProgreso: "Mike",
-    fecha: 32,
-    porcentaje: "10 Downing Street",
-    idObjetivo: "10 Downing Street",
-    descripcion: "10 Downing Street",
-    idPersona: "10 Downing Street",
-    status: "10 Downing Street",
-  },
-];
+import { Button } from "antd";
+import ProgresoService from "../../../Api/progreso";
+import { setDateFormat } from "../../../shared/functions";
 
 const colsProgreso = [
   {
@@ -18,9 +9,12 @@ const colsProgreso = [
     key: "idProgreso",
   },
   {
-    title: "Fecha",
+    title: "Fecha de registro",
     dataIndex: "fecha",
     key: "fecha",
+    render: (date) => {
+      return <p>{setDateFormat(date)}</p>;
+    },
   },
   {
     title: "Porcentaje",
@@ -46,8 +40,44 @@ const colsProgreso = [
     title: "Status",
     dataIndex: "status",
     key: "status",
-    render: () => <p>data</p>,
+    render: (status, record) => {
+      const setStatusValidated = async (data) => {
+        const rsp = await ProgresoService.updateProgreso(data);
+        console.log("rsp", rsp);
+        if (rsp.changedRows === 1) {
+          window.location.reload();
+        }
+      };
+      return (
+        <div>
+          <Button
+            type={"primary"}
+            danger={status === 0 ? true : false}
+            disabled={status === 2 || status === 0 ? true : false}
+            onClick={() => {
+              setStatusValidated({ idProgreso: record.idProgreso, status: 2 });
+            }}
+          >
+            {status === 2 ? "Aprobado" : status === 0 ? "Rechazado" : "Aprobar"}
+          </Button>
+          {status === 1 && (
+            <Button
+              type={"primary"}
+              danger
+              onClick={() => {
+                setStatusValidated({
+                  idProgreso: record.idProgreso,
+                  status: 0,
+                });
+              }}
+            >
+              Rechazar
+            </Button>
+          )}
+        </div>
+      );
+    },
   },
 ];
 
-export { dataSource, colsProgreso };
+export { colsProgreso };

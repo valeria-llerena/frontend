@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import Routes from "./shared/navigation";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.scss";
+import ObjetivoPage from "./pages/ObjetivoPage";
 
 function App() {
   const { home, mainRoutes } = Routes;
@@ -23,6 +24,10 @@ function App() {
         {
           path: home.objetivos,
           element: <ObjetivosPage />,
+        },
+        {
+          path: home.objetivo,
+          element: <ObjetivoPage />,
         },
         {
           path: home.progreso,

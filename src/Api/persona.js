@@ -12,4 +12,17 @@ export default class PersonaService {
       console.log("error", error);
     }
   }
+
+  static async getResponsable(dni) {
+    try {
+      const loginRsp = await Api.get(
+        `${BASE_URL}api/persona/responsable/${dni}`
+      );
+      const loginRspJson = await loginRsp.json();
+
+      return loginRspJson;
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
 }

@@ -1,9 +1,9 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import { Table } from "antd";
-import { dataSource, colsProgreso } from "./data";
+import { colsProgreso } from "./data";
 
-const ProgresoTemplate = () => {
-  return <Table dataSource={dataSource} columns={colsProgreso} />;
+const ProgresoTemplate = ({ progresos }) => {
+  return <Table dataSource={progresos} columns={colsProgreso} />;
 };
 
 export default ProgresoTemplate;

@@ -14,6 +14,23 @@
     font-size: 26px;
     font-weight: bold;
     margin-right: 70px;
+    button {
+      color: #1677ff;
+      background: transparent;
+      border: 0;
+      text-align: start;
+      outline: 0;
+    }
+    button:hover {
+      text-decoration: underline;
+      outline: 0;
+      border: 0;
+    }
+    button:active {
+      color: blue;
+      outline: 0;
+      border: 0;
+    }
   }
 
   .d-flex {
