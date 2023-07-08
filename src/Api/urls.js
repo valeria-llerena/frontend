@@ -1,1 +1,1 @@
-export const BASE_URL = "https://sedt-api.onrender.com";
+export const BASE_URL = "https://sedt-api-v9jb.onrender.com";
