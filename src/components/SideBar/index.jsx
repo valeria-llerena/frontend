@@ -25,7 +25,6 @@ const SideBar = () => {
   const nombre = `${userData?.user?.nombre} ${userData?.user?.apellido}`;
   const superv =
     userData?.user?.supervisor === 0 ? "No supervisor" : "Supervisor";
-  console.log("userData", userData);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

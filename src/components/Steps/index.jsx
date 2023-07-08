@@ -27,13 +27,15 @@ const CreateProgress = ({
   showProgressModalForm,
   setShowProgressModalForm,
   idObjetivo,
+  getObjetivos,
 }) => {
   const userData = useSelector((state) => state);
 
   const handleSubmit = async (values) => {
     const result = await ProgresoService.postNewProgreso(values);
     if (result.response) {
-      window.location.reload();
+      getObjetivos();
+      setShowProgressModalForm(false);
     }
   };
 
@@ -99,7 +101,7 @@ const CreateProgress = ({
   );
 };
 
-const Steps = ({ ...props }) => {
+const Steps = ({ getObjetivos, ...props }) => {
   const [showProgressModalForm, setShowProgressModalForm] = useState(false);
   const {
     avance,
@@ -126,6 +128,7 @@ const Steps = ({ ...props }) => {
         showProgressModalForm={showProgressModalForm}
         setShowProgressModalForm={setShowProgressModalForm}
         idObjetivo={idObjetivo}
+        getObjetivos={getObjetivos}
       />
       <Progress
         className="calification"

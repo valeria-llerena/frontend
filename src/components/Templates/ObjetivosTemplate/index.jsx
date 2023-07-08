@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
   aceptable: Yup.string().required("La aceptable es obligatoria"),
 });
 
-const ObjetivosTemplate = ({ objetivos }) => {
+const ObjetivosTemplate = ({ objetivos, getObjetivos }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const userData = useSelector((state) => state);
   const showModal = () => {
@@ -37,7 +37,8 @@ const ObjetivosTemplate = ({ objetivos }) => {
   const handleSubmit = async (values) => {
     const result = await ObjetivosService.postNewObjetivos(values);
     if (result?.response) {
-      window.location.reload();
+      getObjetivos();
+      setIsModalOpen(false);
     }
   };
 
@@ -164,7 +165,13 @@ const ObjetivosTemplate = ({ objetivos }) => {
       <div className="objetivos_template">
         {newObjetivos &&
           newObjetivos.map((objetivo, index) => {
-            return <Steps key={index} objetivo={objetivo} />;
+            return (
+              <Steps
+                key={index}
+                objetivo={objetivo}
+                getObjetivos={getObjetivos}
+              />
+            );
           })}
       </div>
     </div>

@@ -43,10 +43,6 @@ const colsProgreso = [
     render: (status, record) => {
       const setStatusValidated = async (data) => {
         const rsp = await ProgresoService.updateProgreso(data);
-        console.log("rsp", rsp);
-        if (rsp.changedRows === 1) {
-          window.location.reload();
-        }
       };
       return (
         <div>

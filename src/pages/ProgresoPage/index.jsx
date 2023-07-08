@@ -13,7 +13,7 @@ const ProgresoPage = () => {
     getProgresos();
   }, []);
 
-  return <ProgresoTemplate progresos={progresos} />;
+  return <ProgresoTemplate progresos={progresos} getProgresos={getProgresos} />;
 };
 
 export default ProgresoPage;

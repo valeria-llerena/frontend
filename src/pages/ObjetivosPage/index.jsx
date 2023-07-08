@@ -11,10 +11,13 @@ const ObjetivosPage = () => {
   };
 
   useEffect(() => {
+    console.log("effect");
     getObjetivos();
   }, []);
 
-  return <ObjetivosTemplate objetivos={objetivos} />;
+  return (
+    <ObjetivosTemplate objetivos={objetivos} getObjetivos={getObjetivos} />
+  );
 };
 
 export default ObjetivosPage;
